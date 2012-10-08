@@ -1,0 +1,63 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="Ajapaik.Views.CameraWithOverlay"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Landscape" Orientation="LandscapeLeft"
+    shell:SystemTray.IsVisible="False"
+    mc:Ignorable="d" d:DesignHeight="480" d:DesignWidth="728">
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Canvas x:Name="viewfinderCanvas" Width="730" Height="480" 
+                   HorizontalAlignment="Left" >
+
+            <!--Camera viewfinder -->
+            <Canvas.Background>
+                <VideoBrush x:Name="viewfinderBrush" />
+            </Canvas.Background>
+        </Canvas>
+
+        <Image x:Name="MainImage"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"  
+               Margin="0"
+               Stretch="Uniform">
+            <toolkit:GestureService.GestureListener>
+                <toolkit:GestureListener
+                PinchStarted="OnPinchStarted"
+                PinchDelta="OnPinchDelta"/>
+            </toolkit:GestureService.GestureListener>
+            <Image.RenderTransform>
+                <CompositeTransform
+                ScaleX="1" ScaleY="1"
+                TranslateX="0" TranslateY="0"/>
+            </Image.RenderTransform>
+        </Image>
+
+        <Slider Height="90" 
+                HorizontalAlignment="Left" 
+                Margin="113,2,0,0" 
+                Name="OverlaySlider"
+                VerticalAlignment="Top" 
+                Width="460"
+                Foreground="Blue"
+                ValueChanged="OnSliderValueChanged"
+                Maximum="100" SmallChange="1" Value="100" LargeChange="10" />
+    </Grid>
+
+    <!--Sample code showing usage of ApplicationBar-->
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+            <shell:ApplicationBarIconButton IconUri="/Images/appbarCamera.png" Text="take photo" Click="OnTakePhotoClick"/>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+
+</phone:PhoneApplicationPage>
